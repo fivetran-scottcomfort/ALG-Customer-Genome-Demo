@@ -1,0 +1,13 @@
+version: 2
+
+models:
+  - name: aud_prospecting
+    description: Use Case 2 prospecting audience. Sync this table with Activations.
+    columns:
+      - name: genome_id
+        tests: [unique, not_null]
+  - name: rpt_customer_genome_growth
+    description: Daily Customer Genome audience growth.
+    columns:
+      - name: report_date
+        tests: [unique, not_null]

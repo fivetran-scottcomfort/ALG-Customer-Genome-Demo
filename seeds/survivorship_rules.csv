@@ -1,0 +1,5 @@
+field_name,strategy,source_priority
+email,source_priority,web_booking|bq_user_profile|attentive_capture|metarouter_identify
+phone,most_recent,attentive_capture|web_booking|bq_user_profile|metarouter_identify
+first_name,source_priority,web_booking|bq_user_profile|metarouter_identify
+last_name,source_priority,web_booking|bq_user_profile|metarouter_identify
