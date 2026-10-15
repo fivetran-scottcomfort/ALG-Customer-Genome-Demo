@@ -1,0 +1,12 @@
+# Copy this file to  ~/.dbt/profiles.yml  (Mac/Linux)  or  %USERPROFILE%\.dbt\profiles.yml  (Windows)
+# then replace YOUR-GCP-PROJECT-ID.
+customer_genome:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: oauth            # uses your Google login (gcloud auth application-default login)
+      project: YOUR-GCP-PROJECT-ID
+      dataset: customer_genome # the BigQuery "folder" dbt will create/use for all tables
+      location: US             # must match where your dataset lives
+      threads: 4

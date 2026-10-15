@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: customer_genome
+    description: >
+      The Customer Genome golden record. One row per person (or per anonymous device), built from the
+      identity graph, with survivorship rules applied to name/email/phone.
+    columns:
+      - name: genome_id
+        tests: [unique, not_null]
+      - name: genome_stage
+        tests:
+          - accepted_values:
+              values: [anonymous_new, anonymous_returning, identified, known_returning]
+
+  - name: customer_genome_audit_log
+    description: Every merge, blocked link, review-queue entry and quarantine decision, with the rule and score behind it.
+    columns:
+      - name: audit_id
+        tests: [unique, not_null]
+      - name: action
+        tests:
+          - accepted_values:
+              values: [merge, blocked, queued_for_review, quarantined]
+
+  - name: int_identity_graph
+    columns:
+      - name: node_id
+        tests: [unique, not_null]

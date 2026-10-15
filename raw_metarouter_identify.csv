@@ -1,0 +1,16 @@
+event_id,event_ts,anonymous_id,email,phone,first_name,last_name
+idf-001,2026-09-29 19:15:00,anon_a1, Maria.Alvarez@Gmail.com ,(303) 555-0101,maria,ALVAREZ
+idf-002,2026-09-25 14:30:00,anon_j1,jon.smith@yahoo.com,,Jon,Smith
+idf-003,2026-09-30 11:05:00,anon_p1,priya.nair@gmial.com,,Priya,Nair
+idf-004,2026-10-02 16:40:00,anon_s1,samlee@gmail.com,,Sam,Lee
+idf-005,2026-10-05 09:20:00,anon_g1,rosa.garcia@gmail.com,720-555-0199,Rosa,Garcia
+idf-006,2026-10-06 21:10:00,anon_g2,luis.garcia@gmail.com,(720) 555-0199,Luis,Garcia
+idf-007,2026-10-08 09:00:00,anon_t1,agent@sunsettravel.com,800-555-0100,Dana,Brooks
+idf-008,2026-10-08 09:30:00,anon_t1,tom.reyes@gmail.com,800-555-0100,Tom,Reyes
+idf-009,2026-10-09 10:15:00,anon_t1,alice.wong@outlook.com,800-555-0100,Alice,Wong
+idf-010,2026-10-10 11:00:00,anon_t1,carlos.mendez@gmail.com,800-555-0100,Carlos,Mendez
+idf-011,2026-10-03 08:00:00,anon_e1,kim.lopez@algvacations.com,,Kim,Lopez
+idf-012,2026-10-04 09:00:00,anon_e2,sam.ortiz@hyatt.com,,Sam,Ortiz
+idf-013,2026-10-04 13:00:00,anon_c1,pat.chen@marriott.com,,Pat,Chen
+idf-014,2026-10-07 18:30:00,anon_h1,hannah.cole@icloud.com,,Hannah,Cole
+idf-015,2026-10-01 12:00:00,anon_o1,owen.park@gmail.com,,Owen,Park

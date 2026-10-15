@@ -1,0 +1,4 @@
+event_id,event_ts,email,phone,channel
+att-001,2026-10-01 10:00:00,maria.alvarez@gmail.com,+13035550101,sms
+att-002,2026-10-02 09:00:00,priya.nair@gmail.com,(720) 555-0133,email_sms
+att-003,2026-10-08 12:00:00,hannah.cole@icloud.com,+1 415 555 0177,email_sms

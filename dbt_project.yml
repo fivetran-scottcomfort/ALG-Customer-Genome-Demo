@@ -1,0 +1,52 @@
+name: customer_genome
+version: "1.0.0"
+config-version: 2
+profile: customer_genome
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+
+vars:
+  # "Today" for the demo. Pinned so results never drift. Change to refresh the story.
+  as_of_date: "2026-10-15"
+  # Identity guardrails
+  max_emails_per_identifier: 1   # a phone / device tied to MORE emails than this is "shared" and never used to merge people
+  max_component_size: 25         # profiles bigger than this are quarantined (supernode guard)
+  graph_iterations: 8            # label-propagation passes; must be >= the longest chain of linked identifiers
+  # Fuzzy matching thresholds (0 to 1)
+  fuzzy_name_threshold: 0.85     # name similarity needed for an auto-merge
+  fuzzy_email_local_threshold: 0.6  # similarity of the part before the @
+  review_name_threshold: 0.9     # name-only matches at/above this go to the review queue (never auto-merged)
+  # Prospecting audience
+  prospect_lookback_days: 60
+  recent_booker_days: 30
+
+models:
+  customer_genome:
+    staging:
+      +materialized: view
+    identity:
+      +materialized: table
+    marts:
+      +materialized: table
+
+seeds:
+  customer_genome:
+    raw_metarouter_identify:
+      +column_types: {event_id: string, anonymous_id: string, email: string, phone: string, first_name: string, last_name: string}
+    raw_metarouter_page:
+      +column_types: {event_id: string, anonymous_id: string, user_id: string, session_id: string, page_path: string}
+    raw_metarouter_track:
+      +column_types: {event_id: string, anonymous_id: string, reservation_id: string, event_name: string}
+    raw_attentive_capture:
+      +column_types: {event_id: string, email: string, phone: string, channel: string}
+    raw_web_bookings:
+      +column_types: {reservation_id: string, email: string, phone: string, first_name: string, last_name: string}
+    raw_bq_user_profile:
+      +column_types: {email: string, phone: string, user_id: string, first_name: string, last_name: string}
+    survivorship_rules:
+      +column_types: {field_name: string, strategy: string, source_priority: string}
+    suppression_domains:
+      +column_types: {domain: string, category: string}
