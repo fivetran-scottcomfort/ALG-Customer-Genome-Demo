@@ -75,7 +75,7 @@ To start over from scratch: `dbt seed --full-refresh && dbt build`.
 
 | Model | What it is |
 |---|---|
-| `stg_*` (6) | Cleans each source: lowercase email, phone to +1XXXXXXXXXX, tidy names |
+| `stg_*` (7) | Cleans each source: lowercase email, phone to +1XXXXXXXXXX, tidy names |
 | `int_source_records` | All sources stacked into one shape; derives the hashed `user_id` from email |
 | `int_identifiers` / `int_nodes` | Every email, phone, device, reservation, user_id = a "node" |
 | `int_shared_identifiers` | **Guard 1:** phones/devices tied to more than 1 email are "shared" |
@@ -90,6 +90,7 @@ To start over from scratch: `dbt seed --full-refresh && dbt build`.
 | `customer_genome_journey` | Event-by-event stage for one profile (the Use Case 3 story) |
 | `rpt_customer_genome_growth` | **Audience growth** by day |
 | **`aud_prospecting`** + `aud_prospecting_suppression_log` | **Use Case 2** audience and why people were removed |
+| **`aud_cart_abandon`** | **Use Case 1** cart-abandon audience with trip details (origin, destination, dates, hotel, image) for personalization |
 
 ### How the fuzzy matching works
 1. **Blocking**: only compare emails that share SOUNDEX(last name)+first initial, or the same text before the `@`. (Avoids comparing everyone to everyone.)
@@ -153,18 +154,29 @@ Point at `first_name_source` / `primary_email_source`: Jon's first name became "
     select * from customer_genome.aud_prospecting_suppression_log;
 
 ### Expected results (so you know it worked)
-- 22 profiles in `customer_genome`.
+- 30 profiles in `customer_genome`.
 - Fuzzy auto-merges (2): Jon/Jonathan Smith; priya.nair@gmail.com / @gmial.com.
 - Review queue (1): samlee@gmail.com vs s.lee.travel@outlook.com (Sam/Samuel Lee), **not merged**.
 - Shared identifiers (3): the Garcia family phone, the travel agency phone, the agency's device. Rosa and Luis Garcia stay separate people.
-- `aud_prospecting` has 7 rows: Rosa, Luis, Priya, Sam Lee, Hannah, and two anonymous visitors (anon_n2, anon_n3).
-- `aud_prospecting_suppression_log` has 7 rows: Maria, Jon/Jonathan, Owen (recent_booking), Kim and Sam Ortiz (employee), Pat Chen (competitor), the agency's shared device (shared_device).
+- `aud_prospecting` has 14 rows: 8 known visitors (Rosa, Luis, Priya, Sam Lee, Hannah, Dev, Tyler, Noah) and 6 anonymous (anon_n2, n3, n6, n7, n8, c2).
+- `aud_prospecting_suppression_log` has 8 rows: Maria, Jon/Jonathan, Owen, Grace (recent_booking), Kim and Sam Ortiz (employee), Pat Chen (competitor), the agency's shared device (shared_device).
+- `aud_cart_abandon` has 2 rows: **Dev Patel** (known, DFW to CUN, 10/31 to 11/02, Riu Latino) and **anon_c2** (anonymous, DEN to PUJ, Riu Palace Punta Cana).
+  Why the other carts are out: Maria and Owen booked minutes after their carts, Grace booked 5 days ago, Tyler's cart is older than 14 days.
+
+### Cart-abandon demo query
+
+    select genome_stage, first_name, primary_email, is_matchable,
+           origin, destination, depart_date, return_date, hotel_name, cart_value
+    from customer_genome.aud_cart_abandon
+    order by cart_ts desc;
+
+Point out `is_matchable`: Dev can be reached by email, SMS, and paid media; the anonymous abandoner can only be reached by on-site personalization.
 
 ---------------------------------------------------------------------
 ## Knobs (dbt_project.yml -> vars)
 `as_of_date` (pinned to 2026-10-15 so the demo never drifts), `max_emails_per_identifier`,
 `max_component_size`, `graph_iterations`, `fuzzy_name_threshold`, `fuzzy_email_local_threshold`,
-`review_name_threshold`, `prospect_lookback_days` (60), `recent_booker_days` (30).
+`review_name_threshold`, `prospect_lookback_days` (60), `recent_booker_days` (30), `cart_lookback_days` (14).
 Config seeds you can edit: `survivorship_rules.csv`, `suppression_domains.csv`.
 To regenerate the pretend data: `python scripts/generate_seeds.py` then `dbt seed`.
 
