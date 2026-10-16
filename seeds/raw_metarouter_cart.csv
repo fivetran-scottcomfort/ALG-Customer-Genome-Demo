@@ -1,0 +1,7 @@
+event_id,event_ts,anonymous_id,user_id,session_id,origin,destination,depart_date,return_date,hotel_name,hotel_image_url,cart_value
+crt-001,2026-09-05 19:11:00,anon_r1,,s_r1,LAX,CUN,2026-10-01,2026-10-05,Hyatt Ziva Cancun,https://images.example.com/hotels/hyatt-ziva-cancun.jpg,1575
+crt-002,2026-10-06 19:53:00,anon_a2,69d65b8c249642dadef8920b6a91fe29c5213d98082e4f4cfe09493d7b9356d0,s_a3,DEN,CUN,2026-11-20,2026-11-24,Riu Latino - Adults Only,https://images.example.com/hotels/riu-latino.jpg,2210
+crt-003,2026-10-12 12:20:00,anon_o1,,s_o2,ORD,CUN,2026-12-01,2026-12-05,Riu Palace Peninsula,https://images.example.com/hotels/riu-palace-peninsula.jpg,1985
+crt-004,2026-10-13 18:05:00,anon_d1,,s_d1,DFW,CUN,2026-10-31,2026-11-02,Riu Latino - Adults Only,https://images.example.com/hotels/riu-latino.jpg,1840
+crt-005,2026-10-14 09:07:00,anon_k2,65f12f016fa842f8b5223eabdfab914c62e8b7c2d03bd6d87454f3a53172f1aa,s_k2,ORD,MBJ,2026-12-05,2026-12-10,Hyatt Ziva Rose Hall,https://images.example.com/hotels/hyatt-ziva-rose-hall.jpg,3120
+crt-006,2026-10-14 11:13:00,anon_c2,,s_c2,DEN,PUJ,2026-11-14,2026-11-18,Riu Palace Punta Cana,https://images.example.com/hotels/riu-palace-punta-cana.jpg,2760
