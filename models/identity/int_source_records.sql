@@ -5,6 +5,7 @@ with unioned as (
   select * from {{ ref('stg_metarouter_identify') }}
   union all select * from {{ ref('stg_metarouter_page') }}
   union all select * from {{ ref('stg_metarouter_track') }}
+  union all select * from {{ ref('stg_metarouter_cart') }}
   union all select * from {{ ref('stg_attentive_capture') }}
   union all select * from {{ ref('stg_web_bookings') }}
   union all select * from {{ ref('stg_bq_user_profile') }}
