@@ -11,6 +11,13 @@ models:
     columns:
       - name: genome_id
         tests: [unique, not_null]
+  - name: aud_checkout_abandon
+    description: >
+      Use Case 1 trigger audience, page-path version: visited /checkout in the last 30 days, never reached
+      /checkout/confirmation, and has not booked in the last 30 days.
+    columns:
+      - name: genome_id
+        tests: [unique, not_null]
   - name: rpt_customer_genome_growth
     description: Daily Customer Genome audience growth.
     columns:

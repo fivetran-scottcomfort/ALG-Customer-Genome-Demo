@@ -54,6 +54,13 @@ identify += [
     # Noah: known visitor, browses only
     ("2026-10-11 08:30:00", "anon_m1", "noah.berg@gmail.com", "", "Noah", "Berg"),
 ]
+identify += [
+    # Five checkout abandoners: /checkout page event in the last 30 days, no /checkout/confirmation
+    ("2026-10-10 15:12:00", "anon_x1", "elena.ruiz@gmail.com", "(312) 555-0118", "Elena", "Ruiz"),
+    ("2026-10-05 20:09:00", "anon_x2", "marcus.bell@yahoo.com", "", "Marcus", "Bell"),
+    ("2026-10-14 08:38:00", "anon_x3", "aisha.khan@outlook.com", "(602) 555-0190", "Aisha", "Khan"),
+    ("2026-09-18 19:12:00", "anon_x5a", "ben.torres@gmail.com", "", "Ben", "Torres"),
+]
 write("raw_metarouter_identify",
       ["event_id", "event_ts", "anonymous_id", "email", "phone", "first_name", "last_name"],
       [(f"idf-{i+1:03d}",) + r for i, r in enumerate(identify)])
@@ -106,6 +113,18 @@ pg("anon_n7", "s_n7", "", [("2026-10-14 13:00:00", "/home"), ("2026-10-14 13:02:
 pg("anon_n8", "s_n8a", "", [("2026-10-08 16:00:00", "/home"), ("2026-10-08 16:04:00", "/hotels/riu-palace")])
 pg("anon_n8", "s_n8b", "", [("2026-10-14 16:00:00", "/home"), ("2026-10-14 16:05:00", "/destinations/punta-cana")])
 pg("anon_m1", "s_m1", "", [("2026-10-11 08:20:00", "/home"), ("2026-10-11 08:26:00", "/destinations/punta-cana")])
+BEN = "ben.torres@gmail.com"
+pg("anon_x1", "s_x1", "", [("2026-10-10 15:00:00", "/home"), ("2026-10-10 15:04:00", "/destinations/cancun"),
+                            ("2026-10-10 15:09:00", "/hotels/riu-palace"), ("2026-10-10 15:15:00", "/checkout")])
+pg("anon_x2", "s_x2", "", [("2026-10-05 20:00:00", "/home"), ("2026-10-05 20:05:00", "/hotels/hyatt-ziva"),
+                            ("2026-10-05 20:11:00", "/checkout")])
+pg("anon_x3", "s_x3", "", [("2026-10-14 08:30:00", "/home"), ("2026-10-14 08:34:00", "/hotels/riu-latino"),
+                            ("2026-10-14 08:40:00", "/checkout")])
+pg("anon_x4", "s_x4", "", [("2026-10-12 21:00:00", "/home"), ("2026-10-12 21:03:00", "/destinations/cabo"),
+                            ("2026-10-12 21:08:00", "/checkout")])          # anonymous checkout abandoner
+pg("anon_x5a", "s_x5a", "", [("2026-09-18 19:00:00", "/home"), ("2026-09-18 19:05:00", "/hotels/riu-palace"),
+                              ("2026-09-18 19:10:00", "/checkout")])
+pg("anon_x5b", "s_x5b", h(BEN), [("2026-10-09 18:00:00", "/home"), ("2026-10-09 18:04:00", "/checkout")])  # returns on a new device, logged in
 page.sort()
 write("raw_metarouter_page", ["event_id", "event_ts", "anonymous_id", "user_id", "session_id", "page_path"],
       [(f"pg-{i+1:03d}",) + r for i, r in enumerate(page)])
@@ -128,6 +147,13 @@ cart = [
     ("2026-10-14 11:13:00", "anon_c2", "", "s_c2", "DEN", "PUJ", "2026-11-14", "2026-11-18", "Riu Palace Punta Cana", IMG + "riu-palace-punta-cana.jpg", 2760),  # ABANDONED (anonymous)
     ("2026-10-14 09:07:00", "anon_k2", h(GRACE), "s_k2", "ORD", "MBJ", "2026-12-05", "2026-12-10", "Hyatt Ziva Rose Hall", IMG + "hyatt-ziva-rose-hall.jpg", 3120),  # booked 4 days ago
     ("2026-09-05 19:11:00", "anon_r1", "", "s_r1", "LAX", "CUN", "2026-10-01", "2026-10-05", "Hyatt Ziva Cancun", IMG + "hyatt-ziva-cancun.jpg", 1575),        # too old
+]
+cart += [
+    ("2026-10-10 15:16:00", "anon_x1", "", "s_x1", "ORD", "CUN", "2026-11-07", "2026-11-11", "Hyatt Ziva Cancun", IMG + "hyatt-ziva-cancun.jpg", 2480),
+    ("2026-10-05 20:12:00", "anon_x2", "", "s_x2", "MSP", "SJD", "2026-11-21", "2026-11-25", "Hyatt Ziva Los Cabos", IMG + "hyatt-ziva-los-cabos.jpg", 2890),
+    ("2026-10-14 08:41:00", "anon_x3", "", "s_x3", "PHX", "PUJ", "2026-12-12", "2026-12-17", "Riu Palace Punta Cana", IMG + "riu-palace-punta-cana.jpg", 3340),
+    ("2026-10-12 21:09:00", "anon_x4", "", "s_x4", "DEN", "SJD", "2026-12-03", "2026-12-07", "Hyatt Ziva Los Cabos", IMG + "hyatt-ziva-los-cabos.jpg", 2610),
+    ("2026-10-09 18:05:00", "anon_x5b", h(BEN), "s_x5b", "ATL", "CUN", "2026-11-14", "2026-11-18", "Riu Latino - Adults Only", IMG + "riu-latino.jpg", 1995),
 ]
 cart.sort()
 write("raw_metarouter_cart",
